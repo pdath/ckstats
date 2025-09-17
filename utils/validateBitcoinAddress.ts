@@ -15,7 +15,7 @@ export function validateBitcoinAddress(address: string): boolean {
   if (address.startsWith('bc1p')) {
     // Taproot addresses are 62 characters long
     if (address.length !== 62) {
-      throw new Error('Invalid Taproot address length');
+      return false;
     }
     return true;
   }
