@@ -1,5 +1,9 @@
 import * as bitcoin from 'bitcoinjs-lib';
 
+/**
+ * Tests if the address is a valid Bitcoin address.
+ */
+
 export function validateBitcoinAddress(address: string): boolean {
   // Quick sanity checks
   if (typeof address !== 'string') return false;
