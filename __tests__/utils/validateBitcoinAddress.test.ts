@@ -17,6 +17,10 @@ describe('validateBitcoinAddress', () => {
     expect(validateBitcoinAddress('bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqzk5jj0')).toBe(true);
   });
 
+  test('validates bech32 testnet4 address (tb1q)', () => {
+    expect(validateBitcoinAddress('tb1qn9quw86c6gv3642enrxaglvrqxt032kej9ydjh')).toBe(true);
+  });
+
   test('rejects invalid address', () => {
     expect(validateBitcoinAddress('invalid_address')).toBe(false);
   });

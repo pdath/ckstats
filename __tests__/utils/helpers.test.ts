@@ -26,7 +26,7 @@ describe('Helper Functions', () => {
 
   describe('formatHashrate', () => {
     it('formats hashrates correctly', () => {
-      expect(formatHashrate('1000')).toBe('1 KH/s');
+      expect(formatHashrate('1000')).toBe('1 kH/s');
       expect(formatHashrate('1000000')).toBe('1 MH/s');
       expect(formatHashrate('1000000000')).toBe('1 GH/s');
       expect(formatHashrate('1000000000000')).toBe('1 TH/s');
