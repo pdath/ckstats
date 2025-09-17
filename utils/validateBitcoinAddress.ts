@@ -2,6 +2,8 @@ import * as bitcoin from 'bitcoinjs-lib';
 
 /**
  * Tests if the address is a valid Bitcoin address.
+ * @param {string} address - The Bitcoin address to validate.
+ * @returns {boolean} True if a valid Bitcoin address.
  */
 
 export function validateBitcoinAddress(address: string): boolean {
