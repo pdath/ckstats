@@ -1,30 +1,31 @@
-const bitcoin = require('bitcoinjs-lib');
+import ecc from '@bitcoinerlab/secp256k1';
+import * as bitcoin from 'bitcoinjs-lib';
+
+// Init ECC in case a taproot address is specified
+bitcoin.initEccLib(ecc);
+
+
+/**
+ * Tests if the address is a valid Bitcoin address.
+ * @param {string} address - The Bitcoin address to validate.
+ * @returns {boolean} True if a valid Bitcoin address.
+ */
 
 export function validateBitcoinAddress(address: string): boolean {
-  // Basic regex for Bitcoin addresses
-  // const regex = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$|^bc1[ac-hj-np-z02-9]{39,59}$/;
-  // return regex.test(address);
+  // Quick sanity checks
+  if (typeof address !== 'string') return false;
+  if (address.length === 0) return false;
+
+  // Try mainnet first (covers 1/3, bc1q, bc1p)
   try {
-    // Check for legacy addresses (P2PKH and P2SH) and SegWit addresses (P2WPKH and P2WSH)
-    if (address.startsWith('1') || address.startsWith('3') ||
-	address.startsWith('bc1q') || address.startsWith('tb1q')) {
-      bitcoin.address.toOutputScript(address);
-      return true;
-    }
-    
-    // Check for Taproot addresses (P2TR) (and allow testnet)
-    if (address.startsWith('bc1p') || (address.startsWith('tb1p'))) {
-      // Taproot addresses are 62 characters long
-      if (address.length !== 62) {
-        throw new Error('Invalid Taproot address length');
-      }
-      return true;
-    }
-    
-    // If none of the above conditions are met, it's not a valid Bitcoin address
-    throw new Error('Invalid Bitcoin address format');
-  } catch (e) {
-    console.log(`Invalid Bitcoin address: ${address}`);
-    return false;
-  }
+    bitcoin.address.toOutputScript(address, bitcoin.networks.bitcoin);
+    return true;
+  } catch {}
+  // Then testnet (covers m/n/2, tb1q, tb1p; works for testnet4 bech32 hrp `tb`)
+  try {
+    bitcoin.address.toOutputScript(address, bitcoin.networks.testnet);
+    return true;
+  } catch {}
+
+  return false;
 }

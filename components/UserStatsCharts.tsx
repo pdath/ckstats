@@ -23,7 +23,7 @@ function getHashrateUnit(maxHashrate: number): [string, number] {
   if (maxHashrate >= 1e13) return ['TH/s', 1e12];
   if (maxHashrate >= 1e10) return ['GH/s', 1e9];
   if (maxHashrate >= 1e7) return ['MH/s', 1e6];
-  if (maxHashrate >= 1e4) return ['KH/s', 1e3];
+  if (maxHashrate >= 1e4) return ['kH/s', 1e3];
   return ['H/s', 1];
 }
 
