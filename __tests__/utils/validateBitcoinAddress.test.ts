@@ -69,4 +69,40 @@ describe('validateBitcoinAddress', () => {
   test('rejects address with Unicode characters', () => {
     expect(validateBitcoinAddress('1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2🚀')).toBe(false);
   });
+
+  test('rejects valid format with corrupted checksum', () => {
+    expect(validateBitcoinAddress('1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN3')).toBe(false);
+  });
+
+  test('rejects bech32 address with mixed case', () => {
+    expect(validateBitcoinAddress('BC1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq')).toBe(false);
+  });
+
+  test('rejects malformed bech32 - invalid separator placement', () => {
+    expect(validateBitcoinAddress('bc1qar0srrr7xf1kvy5l643lydnw9re59gtzzwf5mdq')).toBe(false);
+  });
+
+  test('rejects malformed bech32 - missing separator', () => {
+    expect(validateBitcoinAddress('bcqar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq')).toBe(false);
+  });
+
+  test('rejects malformed bech32 - wrong padding', () => {
+    expect(validateBitcoinAddress('bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5md')).toBe(false);
+  });
+
+  test('validates taproot testnet address (tb1p)', () => {
+    expect(validateBitcoinAddress('tb1p5cyxnuxmeuwuvkwfem96lqzszd02n6xdcjrs20cac6yqjjwudpxqp3mvzv')).toBe(true);
+  });
+
+  test('rejects taproot address with invalid length', () => {
+    expect(validateBitcoinAddress('bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vq')).toBe(false);
+  });
+
+  test('rejects taproot data with wrong witness version (bc1q)', () => {
+    expect(validateBitcoinAddress('bc1q0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqzk5jj0')).toBe(false);
+  });
+
+  test('rejects taproot address with mixed case', () => {
+    expect(validateBitcoinAddress('BC1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqzk5jj0')).toBe(false);
+  });
 });
