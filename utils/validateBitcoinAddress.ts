@@ -1,4 +1,9 @@
+import ecc from '@bitcoinerlab/secp256k1';
 import * as bitcoin from 'bitcoinjs-lib';
+
+// Init ECC in case a taproot address is specified
+bitcoin.initEccLib(ecc);
+
 
 /**
  * Tests if the address is a valid Bitcoin address.
@@ -11,15 +16,6 @@ export function validateBitcoinAddress(address: string): boolean {
   if (typeof address !== 'string') return false;
   if (address.length === 0) return false;
 
-  // Check for Taproot addresses (P2TR)
-  if (address.startsWith('bc1p')) {
-    // Taproot addresses are 62 characters long
-    if (address.length !== 62) {
-      return false;
-    }
-    return true;
-  }
- 
   // Try mainnet first (covers 1/3, bc1q, bc1p)
   try {
     bitcoin.address.toOutputScript(address, bitcoin.networks.bitcoin);

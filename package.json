@@ -19,6 +19,7 @@
     "migration:run:skip": "ts-node -P tsconfig.scripts.json ./scripts/migration.ts --skip-initial"
   },
   "dependencies": {
+    "@bitcoinerlab/secp256k1": "^1.2.0",
     "@tanstack/react-query": "^5.89.0",
     "bitcoinjs-lib": "^6.1.7",
     "daisyui": "^4.12.24",
